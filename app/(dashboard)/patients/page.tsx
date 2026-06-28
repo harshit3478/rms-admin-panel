@@ -115,10 +115,14 @@ export default function PatientsPage() {
     const q = query(collection(db, 'Patient'), orderBy('date', 'desc'));
     const unsub = onSnapshot(q, snap => {
       setAssessments(snap.docs.map(d => ({ id: d.id, ...d.data() } as Assessment)));
+      // order them by date descending
+      setAssessments(prev => [...prev].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
       setLoading(false);
     }, () => {
       const unsub2 = onSnapshot(collection(db, 'Patient'), snap => {
         setAssessments(snap.docs.map(d => ({ id: d.id, ...d.data() } as Assessment)));
+        // order them by date descending
+        setAssessments(prev => [...prev].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
         setLoading(false);
       });
       return unsub2;

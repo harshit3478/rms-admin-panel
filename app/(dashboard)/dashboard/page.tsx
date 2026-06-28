@@ -43,6 +43,8 @@ export default function DashboardPage() {
         const snap = await getDocs(q);
         const seen = new Set<string>();
         const rows: RecentPatient[] = [];
+        // order them by date descending
+        snap.docs.sort((a, b) => new Date(b.data().date).getTime() - new Date(a.data().date).getTime());
         for (const d of snap.docs) {
           const data = d.data() as RecentPatient;
           const key = data.patientid || d.id;

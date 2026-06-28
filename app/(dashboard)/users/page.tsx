@@ -42,6 +42,9 @@ export default function UsersPage() {
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'registerRequests'), snap => {
       setRequests(snap.docs.map(d => ({ id: d.id, ...d.data() } as Request)));
+      // order them by timestamp descending
+      setRequests(prev => [...prev].sort((a, b) => b.id.localeCompare(a.id)));
+      
       setLoadingRequests(false);
     });
     return unsub;

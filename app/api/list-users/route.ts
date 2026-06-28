@@ -20,6 +20,8 @@ export async function GET(req: Request) {
       disabled: u.disabled,
       createdAt: u.metadata.creationTime ?? '',
     }));
+    // order them by creation time descending
+    users.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     return NextResponse.json({ users });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Failed to list users';
